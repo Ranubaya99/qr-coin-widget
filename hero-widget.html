@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>QR Coin Hero Widget</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .hero-container {
+      text-align: center;
+      padding: 40px 30px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      max-width: 500px;
+      width: 90%;
+    }
+    .hero-title {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    .hero-score {
+      font-size: 72px;
+      font-weight: bold;
+      color: #4caf50;
+    }
+    .hero-sub {
+      font-size: 18px;
+      opacity: 0.8;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="hero-container">
+    <div class="hero-title">QR Coin Point Today</div>
+    <div class="hero-score" id="score">1234</div>
+    <div class="hero-sub">Last updated: Just now</div>
+  </div>
+</body>
+</html>

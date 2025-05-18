@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>QR Coin Billboard Widget</title>
+  <style>
+    body {
+      margin: 0; font-family: Arial, sans-serif; background: #222; color: #fff;
+      display: flex; justify-content: center; align-items: center; height: 100vh;
+    }
+    .billboard {
+      text-align: center;
+      padding: 20px;
+      border-radius: 8px;
+      background: linear-gradient(45deg, #4caf50, #81c784);
+      width: 280px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    .score {
+      font-size: 48px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    .label {
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div class="billboard">
+    <div class="label">Today’s QR Coin Point</div>
+    <div class="score" id="score">1234</div>
+  </div>
+  <script>
+    // Kalau mau nanti bisa ganti angka dengan fetch dari API
+  </script>
+</body>
+</html>

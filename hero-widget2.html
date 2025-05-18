@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>QR Coin Hero Widget</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #0d1b2a, #1b263b);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #e0e6f0;
+  }
+
+  .hero-container {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    padding: 40px 60px;
+    border-radius: 24px;
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.6);
+    max-width: 480px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+  }
+
+  .hero-title {
+    font-size: 2.4rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    color: #71e5ff;
+  }
+
+  .hero-score {
+    font-size: 5.5rem;
+    font-weight: 700;
+    color: #42f5b0;
+    margin: 0;
+    position: relative;
+    animation: pulse 2.5s infinite ease-in-out;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      text-shadow: 0 0 10px #42f5b0, 0 0 20px #42f5b0, 0 0 40px #71e5ff;
+    }
+    50% {
+      text-shadow: 0 0 20px #71e5ff, 0 0 30px #71e5ff, 0 0 50px #42f5b0;
+    }
+  }
+
+  .hero-sub {
+    font-size: 1.2rem;
+    opacity: 0.7;
+    margin-top: 14px;
+    letter-spacing: 0.5px;
+    font-style: italic;
+  }
+
+  /* Small subtle shine animation over title */
+  .hero-title::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+    transform: skewX(-25deg);
+    animation: shine 3s infinite;
+  }
+
+  @keyframes shine {
+    0% {
+      left: -50%;
+    }
+    100% {
+      left: 150%;
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .hero-container {
+      padding: 30px 20px;
+    }
+    .hero-title {
+      font-size: 1.8rem;
+    }
+    .hero-score {
+      font-size: 4rem;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="hero-container" role="region" aria-label="QR Coin Points Today">
+    <h1 class="hero-title">QR Coin Points Today</h1>
+    <p class="hero-score" id="score">1234</p>
+    <p class="hero-sub" id="last-updated">Last updated: Just now</p>
+  </div>
+
+  <script>
+    const scoreElem = document.getElementById('score');
+    const updatedElem = document.getElementById('last-updated');
+
+    async function fetchData() {
+      try {
+        const res = await fetch('data.json');
+        if (!res.ok) throw new Error('Data not found');
+        const data = await res.json();
+
+        scoreElem.textContent = data.today.toLocaleString();
+        updatedElem.textContent = `Last updated: ${data.last_updated}`;
+      } catch (e) {
+        scoreElem.textContent = 'N/A';
+        updatedElem.textContent = 'Last updated: Unknown';
+      }
+    }
+
+    fetchData();
+    setInterval(fetchData, 300000); // Refresh setiap 5 menit
+  </script>
+</body>
+</html>

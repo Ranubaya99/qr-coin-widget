@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QR Coin Hero Widget</title>
+
+  <!-- Fonts & Swiper -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0d1b2a, #1b263b);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      padding: 20px;
+      color: #e0e6f0;
+      box-sizing: border-box;
+    }
+
+    .hero-container {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(12px);
+      padding: 40px 60px;
+      border-radius: 24px;
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.6);
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero-title {
+      font-size: 2.4rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      color: #71e5ff;
+    }
+
+    .hero-title::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -50%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+      transform: skewX(-25deg);
+      animation: shine 3s infinite;
+    }
+
+    @keyframes shine {
+      0% {
+        left: -50%;
+      }
+      100% {
+        left: 150%;
+      }
+    }
+
+    .hero-score {
+      font-size: 5.5rem;
+      font-weight: 700;
+      color: #42f5b0;
+      margin: 0;
+    }
+
+    .hero-sub {
+      font-size: 1.2rem;
+      opacity: 0.7;
+      margin-top: 14px;
+      letter-spacing: 0.5px;
+      font-style: italic;
+    }
+
+    /* Swiper Carousel */
+    .swiper {
+      margin-top: 40px;
+      width: 100%;
+      max-width: 480px;
+      padding-bottom: 30px;
+    }
+
+    .swiper-slide {
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(6px);
+      padding: 16px 24px;
+      border-radius: 16px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .swiper-button-next,
+    .swiper-button-prev {
+      color: #fff;
+      top: 55%;
+    }
+
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+      color: #71e5ff;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .hero-container {
+        padding: 30px 20px;
+      }
+      .hero-title {
+        font-size: 1.8rem;
+      }
+      .hero-score {
+        font-size: 4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero -->
+  <div class="hero-container" role="region" aria-label="QR Coin Points Today">
+    <h1 class="hero-title">QR Coin Points Today</h1>
+    <p class="hero-score" id="score">1234</p>
+    <p class="hero-sub" id="last-updated">Last updated: Just now</p>
+  </div>
+
+  <!-- Carousel -->
+  <div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">Football</div>
+      <div class="swiper-slide">Basketball</div>
+      <div class="swiper-slide">Tennis</div>
+      <div class="swiper-slide">eSports</div>
+      <div class="swiper-slide">Cycling</div>
+      <div class="swiper-slide">Volleyball</div>
+    </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  </div>
+
+  <!-- Script -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    const scoreElem = document.getElementById('score');
+    const updatedElem = document.getElementById('last-updated');
+
+    async function fetchData() {
+      try {
+        const res = await fetch('data.json');
+        if (!res.ok) throw new Error('Data not found');
+        const data = await res.json();
+
+        scoreElem.textContent = data.today.toLocaleString();
+        updatedElem.textContent = `Last updated: ${data.last_updated}`;
+      } catch (e) {
+        scoreElem.textContent = 'N/A';
+        updatedElem.textContent = 'Last updated: Unknown';
+      }
+    }
+
+    fetchData();
+    setInterval(fetchData, 300000); // Refresh setiap 5 menit
+
+    // Swiper setup
+    const swiper = new Swiper(".mySwiper", {
+      slidesPerView: 2.5,
+      spaceBetween: 16,
+      loop: true,
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      breakpoints: {
+        480: {
+          slidesPerView: 3.5,
+        }
+      }
+    });
+  </script>
+</body>
+</html>
